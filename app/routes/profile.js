@@ -66,50 +66,54 @@ profile_route.route('/profiles')
         });
     });
 
-// profile_route.route('/profile/:profile_id')
+profile_route.route('/profile/:profile_id')
 
-//     // get the bear with that id (accessed at GET http://localhost:8080/api/users/:user_id)
-//     .get(function (req, res) {
-//         Profile.findById(req.params.profile_id, function (err, bear) {
-//             if (err)
-//                 res.send(err);
-//             res.json(bear);
-//         });
-//     })
+    // get the bear with that id (accessed at GET http://localhost:8080/api/users/:user_id)
+    .get(function (req, res) {
+        Profile.findById(req.params.profile_id, function (err, profile) {
+            if (err) {
+                var rObj = { Message: 'No Profile found!', IsSuccess: false, Error: err };
+                console.log(rObj.Message);
+                res.json(rObj);
+            } else {
+                res.json(profile);
+            }
+        });
+    });
 
-//     // update the bear with this id (accessed at PUT http://localhost:8080/api/users/:user_id)
-//     .put(function (req, res) {
+// update the bear with this id (accessed at PUT http://localhost:8080/api/users/:user_id)
+// .put(function (req, res) {
 
-//         // use our bear model to find the bear we want
-//         Profile.findById(req.params.profile_id, function (err, user) {
+//     // use our bear model to find the bear we want
+//     Profile.findById(req.params.profile_id, function (err, user) {
 
-//             if (err)
-//                 res.send(err);
+//         if (err)
+//             res.send(err);
 
-//             user.name = req.body.name;  // update the bears info
+//         user.name = req.body.name;  // update the bears info
 
-//             // save the bear
-//             user.save(function (err) {
-//                 if (err)
-//                     res.send(err);
-
-//                 res.json({ message: 'User updated!' });
-//             });
-
-//         });
-//     })
-
-//     // delete the bear with this id (accessed at DELETE http://localhost:8080/api/users/:user_id)
-//     .delete(function (req, res) {
-//         User.remove({
-//             _id: req.params.user_id
-//         }, function (err, user) {
+//         // save the bear
+//         user.save(function (err) {
 //             if (err)
 //                 res.send(err);
 
-//             res.json({ message: 'Successfully deleted' });
+//             res.json({ message: 'User updated!' });
 //         });
+
 //     });
+// })
+
+// // delete the bear with this id (accessed at DELETE http://localhost:8080/api/users/:user_id)
+// .delete(function (req, res) {
+//     User.remove({
+//         _id: req.params.user_id
+//     }, function (err, user) {
+//         if (err)
+//             res.send(err);
+
+//         res.json({ message: 'Successfully deleted' });
+//     });
+// });
 
 
 // Return router

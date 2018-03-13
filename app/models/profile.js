@@ -12,7 +12,10 @@ var ProfileScheme = new Schema({
     email: String,
     isActive: Boolean,
     mobileVerified: Boolean,
-    create_date: Date
+    create_date: Date,
+    otherDetails: {
+        vehicles: [String]
+    }
 });
 
 ProfileScheme.methods.MobileVerficationCompleted = function () {

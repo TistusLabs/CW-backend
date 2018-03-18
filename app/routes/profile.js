@@ -28,6 +28,7 @@ var profile_route = express.Router();
 //     }
 // });
 
+// saving profile information
 profile_route.route('/profile')
     .post(function (req, res) {
 
@@ -43,6 +44,7 @@ profile_route.route('/profile')
         profile.isActive = false;
         profile.mobileVerified = false;
         profile.create_date = Date.now();
+        profile.otherDetails.vehicles = req.body.otherDetails.vehicles;
 
         profile.save(function (err, newProfile) {
             if (err) {

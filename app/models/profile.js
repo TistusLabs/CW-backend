@@ -14,7 +14,11 @@ var ProfileScheme = new Schema({
     mobileVerified: Boolean,
     create_date: Date,
     otherDetails: {
-        vehicles: [String]
+        vehicles: [
+            {
+                registrationNumber: String
+            }
+        ]
     }
 });
 

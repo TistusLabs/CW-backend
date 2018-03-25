@@ -1,4 +1,3 @@
-
 var express = require('express');
 var Profile = require('../models/profile');
 var jwt = require('jsonwebtoken');
@@ -27,36 +26,55 @@ var profile_route = express.Router();
 //         return res.status(403).send(rObj);
 //     }
 // });
+function addingOrUpdatingProfile(profile, flag, req, res) {
+    profile.firstName = req.body.firstName;
+    profile.lastName = req.body.lastName;
+    profile.nicPassport = req.body.nicPassport;
+    profile.mobile = req.body.mobile;
+    profile.email = req.body.email;
+    profile.address = req.body.address;
+    profile.type = "customer";
+    profile.callingName = "";
+    profile.isActive = false;
+    profile.mobileVerified = false;
+    profile.create_date = Date.now();
+    profile.otherDetails.vehicles = req.body.otherDetails.vehicles;
 
+    profile.save(function (err, newProfile) {
+        if (err) {
+            var rObj = {};
+            if (flag == "save") {
+                rObj = { Message: 'Error on profile creation!', IsSuccess: false, Error: err };
+            } else if (flag == "update") {
+                rObj = { Message: 'Error on updating profile!', IsSuccess: false, Error: err };
+            }
+            console.log(rObj.Message);
+            res.json(rObj);
+        } else {
+            var rObj = {};
+            if (flag == "save") {
+                rObj = { Message: 'Profile created successfully!', IsSuccess: true, Error: "" };
+            } else if (flag == "update") {
+                rObj = { Message: 'Profile updated successfully!', IsSuccess: true, Error: "" };
+            }
+            console.log(rObj.Message);
+            res.json(rObj);
+        }
+    });
+}
 // saving profile information
 profile_route.route('/profile')
     .post(function (req, res) {
 
         let profile = new Profile();
-        profile.firstName = req.body.firstName;
-        profile.lastName = req.body.lastName;
-        profile.nicPassport = req.body.nicPassport;
-        profile.mobile = req.body.mobile;
-        profile.email = req.body.email;
-        profile.address = req.body.address;
-        profile.type = "customer";
-        profile.callingName = "";
-        profile.isActive = false;
-        profile.mobileVerified = false;
-        profile.create_date = Date.now();
-        profile.otherDetails.vehicles = req.body.otherDetails.vehicles;
+        if (req.body._id != undefined) {
+            Profile.findById(req.body._id, function (err, newprofile) {
+                addingOrUpdatingProfile(newprofile, "update", req, res);
+            });
+        } else {
+            addingOrUpdatingProfile(profile, "save", req, res);
+        }
 
-        profile.save(function (err, newProfile) {
-            if (err) {
-                var rObj = { Message: 'Error on profile creation!', IsSuccess: false, Error: err };
-                console.log(rObj.Message);
-                res.json(rObj);
-            } else {
-                var rObj = { Message: 'Profile created successfully!', IsSuccess: true, Error: "" };
-                console.log(rObj.Message);
-                res.json(rObj);
-            }
-        });
     });
 
 profile_route.route('/profiles')

@@ -28,6 +28,33 @@ var vehicle_route = express.Router();
 //     }
 // });
 
+vehicle_route.route('/vehicles/tag')
+    .post(function (req, res) {
+
+        var findObject = { "registrationNumber": req.body.regNumber }
+        Vehicle.find(findObject, function (err, foundObjects) {
+            if (foundObjects.length == 0) {
+                var rObj = { Message: 'Invalid vehicle registration number.', IsSuccess: false, Error: err };
+                console.log(rObj.Message);
+                res.json(rObj);
+            } else {
+                var resultObj = foundObjects[0];
+                resultObj.TagToCustomer(req.body.profileID);
+                resultObj.save(function (err, newProfile) {
+                    if (err) {
+                        var rObj = { Message: 'Error on tagging profile to the vehicle!', IsSuccess: false, Error: err };
+                        console.log(rObj.Message);
+                        res.json(rObj);
+                    } else {
+                        var rObj = { Message: 'Profile tagged to the Vehicle successfully!', IsSuccess: true, Error: "" };
+                        console.log(rObj.Message);
+                        res.json(rObj);
+                    }
+                });
+            }
+        });
+    });
+
 vehicle_route.route('/vehicle')
     .post(function (req, res) {
 

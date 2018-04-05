@@ -10,6 +10,7 @@ var TaskSchema = new Schema({
     create_datetime: Date,
     completed_datetime: Date,
     taskNumber: String,
+    currentMileage: Number,
     customerName: String,
     taskCompleted: Boolean
 });

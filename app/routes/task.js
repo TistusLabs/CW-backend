@@ -62,6 +62,7 @@ task_route.route('/task')
         task.registrationNumber = req.body.regNumber;
         task.create_datetime = req.body.create_datetime;
         task.taskNumber = req.body.taskNumber;
+        task.currentMileage = req.body.currentMileage;
         task.customerName = "";
         task.taskCompleted = false;
 

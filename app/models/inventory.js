@@ -10,7 +10,7 @@ var InventoryScheme = new Schema({
     sellingPrice: Number,
     imageURL: String,
     create_date: Date,
-    supplierType: String,
+    supplierID: String,
     supplierPartNumber: String,
     dealerID: String
 });

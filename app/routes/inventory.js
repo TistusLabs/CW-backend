@@ -37,7 +37,7 @@ function addingOrUpdatingInventoryItem(inventoryItem, flag, req, res) {
     inventoryItem.sellingPrice = req.body.sellingPrice;
     inventoryItem.imageURL = req.body.imageURL;
     inventoryItem.create_date = Date.now();
-    inventoryItem.supplierType = req.body.supplierType;
+    inventoryItem.supplierID = req.body.supplierID;
     inventoryItem.supplierPartNumber = req.body.supplierPartNumber;
     inventoryItem.dealerID = req.body.dealerID;
 

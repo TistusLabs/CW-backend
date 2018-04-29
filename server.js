@@ -27,6 +27,7 @@ app.use('/api', require('./app/routes/inventory'));
 app.use('/api', require('./app/routes/vehicle'));
 app.use('/api', require('./app/routes/task'));
 app.use('/api', require('./app/routes/dealer'));
+app.use('/api', require('./app/routes/supplier'));
 // >>>> add new APIs above this comment to avoid authentication
 app.use('/api', require('./app/routes/user'));
 app.use('/api', require('./app/routes/verification'));

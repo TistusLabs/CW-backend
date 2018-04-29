@@ -23,6 +23,7 @@ main_router.get('/', function (req, res) {
 
 app.use('/', main_router);
 app.use('/api', require('./app/routes/profile'));
+app.use('/api', require('./app/routes/inventory'));
 app.use('/api', require('./app/routes/vehicle'));
 app.use('/api', require('./app/routes/task'));
 app.use('/api', require('./app/routes/user'));

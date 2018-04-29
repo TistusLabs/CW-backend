@@ -1,11 +1,11 @@
 var express = require('express');
-var Inventory = require('../models/inventory');
+var Dealer = require('../models/dealer');
 var jwt = require('jsonwebtoken');
 var config = require('../../config');
-var inventory_route = express.Router();
+var dealer_route = express.Router();
 
 // checking token for each and every request
-// inventory_route.use(function (req, res, next) {
+// dealer_route.use(function (req, res, next) {
 
 //     var token = req.body.Authorization || req.query.Authorization || req.headers['authorization'];
 
@@ -27,36 +27,32 @@ var inventory_route = express.Router();
 //     }
 // });
 
-function addingOrUpdatingInventoryItem(inventoryItem, flag, req, res) {
+function addingOrUpdatingDealer(dealer, flag, req, res) {
 
-    inventoryItem.partNumber = req.body.partNumber;
-    inventoryItem.nameDescription = req.body.nameDescription;
-    inventoryItem.itemType = req.body.itemType;
-    inventoryItem.make = req.body.make;
-    inventoryItem.dealerPrice = req.body.dealerPrice;
-    inventoryItem.sellingPrice = req.body.sellingPrice;
-    inventoryItem.imageURL = req.body.imageURL;
-    inventoryItem.create_date = Date.now();
-    inventoryItem.supplierType = req.body.supplierType;
-    inventoryItem.supplierPartNumber = req.body.supplierPartNumber;
-    inventoryItem.dealerID = req.body.dealerID;
+    dealer.name = req.body.name;
+    dealer.address = req.body.address;
+    dealer.logoURL = req.body.logoURL;
+    dealer.landline = req.body.landline;
+    dealer.mobile = req.body.mobile;
+    dealer.sellingPrice = req.body.sellingPrice;
+    dealer.create_date = Date.now();
 
-    inventoryItem.save(function (err, newItem) {
+    dealer.save(function (err, newItem) {
         if (err) {
             var rObj = {};
             if (flag == "save") {
-                rObj = { Message: 'Error on inventory item creation!', IsSuccess: false, Error: err };
+                rObj = { Message: 'Error on dealer creation!', IsSuccess: false, Error: err };
             } else if (flag == "update") {
-                rObj = { Message: 'Error on updating inventory item!', IsSuccess: false, Error: err };
+                rObj = { Message: 'Error on updating dealer!', IsSuccess: false, Error: err };
             }
             console.log(rObj.Message);
             res.json(rObj);
         } else {
             var rObj = {};
             if (flag == "save") {
-                rObj = { Message: 'Inventory item created successfully!', IsSuccess: true, Error: "" };
+                rObj = { Message: 'Dealer created successfully!', IsSuccess: true, Error: "" };
             } else if (flag == "update") {
-                rObj = { Message: 'Inventory item updated successfully!', IsSuccess: true, Error: "" };
+                rObj = { Message: 'Dealer updated successfully!', IsSuccess: true, Error: "" };
             }
             console.log(rObj.Message);
             res.json(rObj);
@@ -65,30 +61,30 @@ function addingOrUpdatingInventoryItem(inventoryItem, flag, req, res) {
 }
 
 // saving inventory item
-inventory_route.route('/inventory/newitem')
+dealer_route.route('/dealer')
     .post(function (req, res) {
 
-        let newItem = new Inventory();
+        let newDealer = new Dealer();
         if (req.body._id != undefined) {
-            Inventory.findById(req.body._id, function (err, newItem) {
-                addingOrUpdatingInventoryItem(newItem, "update", req, res);
+            Dealer.findById(req.body._id, function (err, newDealer) {
+                addingOrUpdatingDealer(newDealer, "update", req, res);
             });
         } else {
-            addingOrUpdatingInventoryItem(newItem, "save", req, res);
+            addingOrUpdatingDealer(newDealer, "save", req, res);
         }
 
     });
 
-inventory_route.route('/inventory')
+dealer_route.route('/dealer')
     .get(function (req, res) {
-        Inventory.find(function (err, inventory) {
+        Dealer.find(function (err, dealerdetails) {
             if (err)
                 res.send(err);
-            res.json(inventory);
+            res.json(dealerdetails);
         });
     });
 
-// inventory_route.route('/profile/:profile_id')
+// dealer_route.route('/profile/:profile_id')
 
 //     // get the bear with that id (accessed at GET http://localhost:8080/api/users/:user_id)
 //     .get(function (req, res) {
@@ -139,4 +135,4 @@ inventory_route.route('/inventory')
 
 
 // Return router
-module.exports = inventory_route;
+module.exports = dealer_route;
